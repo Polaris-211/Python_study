@@ -46,6 +46,7 @@ def load_sessions():
         for filename in file_list:
             if filename.endswith(".json"):
                 sessions_list.append(filename[:-5])
+    sessions_list.sort(reverse=True) #列表降序
     return sessions_list
 
 #加载指定会话信息
@@ -153,7 +154,8 @@ with st.sidebar:
             if st.button("", width = "stretch", icon="❌", key = f"delete_{session}"):
                 delete_session(session)
                 st.rerun()
-
+    #分割线
+    st.divider()
 
     st.subheader("伴侣信息")
 
