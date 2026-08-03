@@ -3,14 +3,14 @@ import os
 from openai import OpenAI
 
 st.set_page_config(
-    page_title="AI只能伴侣",
+    page_title="AI智能伴侣",
     page_icon="👻",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={}
 )
 
-st.title("AI只能伴侣")
+st.title("AI智能伴侣")
 
 st.logo("resourse/logo.png")
 
