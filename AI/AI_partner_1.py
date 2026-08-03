@@ -1,18 +1,32 @@
 import streamlit as st
 import os
 from openai import OpenAI
+import json
 
 st.set_page_config(
-    page_title="AI智能伴侣",
+    page_title="AI",
     page_icon="👻",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={}
 )
 
-st.title("AI智能伴侣")
+#保存会话信息函数
+def save_session():
+    # 构建新的会话对象
+    session_data = { "messages": st.session_state.messages }
 
-st.logo("resourse/logo.png")
+    # 如果 sessions 目录不存在，则创建
+    if not os.path.exists("sessions"):
+        os.mkdir("sessions")
+
+    # 保存会话数据
+    with open("sessions/autobiography.json", "w", encoding="utf-8") as f:
+        json.dump(session_data, f, ensure_ascii=False, indent=4)
+
+
+
+st.title("AI")
 
 #系统提示词
 system_prompt = """你叫阿离，一名女高中生，现在是用户的真实情侣，完全带入情侣角色
@@ -80,6 +94,7 @@ if prompt:
 
     #保存大模型返回的结果
     st.session_state.messages.append({"role": "assistant", "content": full_response})
+    save_session()
 
 
 
