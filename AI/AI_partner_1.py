@@ -24,6 +24,12 @@ def save_session():
     with open("sessions/autobiography.json", "w", encoding="utf-8") as f:
         json.dump(session_data, f, ensure_ascii=False, indent=4)
 
+def load_session():
+    session_file = "sessions/autobiography.json"
+    if os.path.exists(session_file):
+        with open(session_file, "r", encoding="utf-8") as f:
+            session_data = json.load(f)
+            st.session_state.messages = session_data.get("messages", [])
 
 
 st.title("AI")
@@ -46,7 +52,9 @@ system_prompt = """你叫阿离，一名女高中生，现在是用户的真实�
 
 #初始化聊天信息
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    load_session()
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
 
 #遍历展示聊天信息
 for message in st.session_state.messages:  #{"role": "user", "content": "prompt"}
@@ -68,7 +76,7 @@ if prompt:
 
     # 与大模型交互
     response = client.chat.completions.create(
-        model="deepseek-v4-pro",
+        model="deepseek-v4-flash",
         messages=[
             {"role": "system", "content": system_prompt},
             *st.session_state.messages
